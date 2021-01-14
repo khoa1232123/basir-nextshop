@@ -7,11 +7,16 @@ import {
   Container,
   Box,
   Typography,
+  CircularProgress,
+  Badge,
 } from '@material-ui/core';
 import Head from 'next/head';
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { theme, useStyles } from '../utils/styles';
 import NextLink from 'next/link';
+import { Store } from './Store';
+import getCommerce from '../utils/commerce';
+import { cartTypes } from '../utils/types';
 
 export default function Layout({
   children,
@@ -19,6 +24,20 @@ export default function Layout({
   title = 'NextJsShop',
 }) {
   const classes = useStyles();
+  const { state, dispatch } = useContext(Store);
+  const { cart } = state;
+  console.log(cart);
+
+  useEffect(() => {
+    const fetchCart = async () => {
+      const commerce = getCommerce(commercePublicKey);
+      dispatch({ type: cartTypes.CART_RETRIEVE_REQUEST });
+      const cartData = await commerce.cart.retrieve();
+      dispatch({ type: cartTypes.CART_RETRIEVE_SUCCESS, payload: cartData });
+    };
+    fetchCart();
+  }, []);
+
   return (
     <React.Fragment>
       <Head>
@@ -59,7 +78,15 @@ export default function Layout({
                   href="/cart"
                   className={classes.link}
                 >
-                  Cart
+                  {cart.loading ? (
+                    <CircularProgress />
+                  ) : cart.data ? (
+                    <Badge badgeContent={cart.data.total_items} color="primary">
+                      Cart
+                    </Badge>
+                  ) : (
+                    'Cart'
+                  )}
                 </Link>
               </NextLink>
             </nav>

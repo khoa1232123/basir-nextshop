@@ -1,3 +1,15 @@
+import {
+  Box,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Grid,
+  Link,
+  Slide,
+  Typography,
+} from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 import Head from 'next/head';
 import Layout from '../components/Layout';
 import styles from '../styles/Home.module.css';
@@ -8,15 +20,46 @@ export default function Home(props) {
   console.log(products);
   return (
     <Layout title="Home" commercePublicKey={props.commercePublicKey}>
-      <main className={styles.main}>
+      {products.length === 0 && <Alert>No product found</Alert>}
+      <Grid container spacing={1}>
         {products.map((product) => (
-          <div key={product.id}>
-            <img src={product.media.source} alt={product.name} />
-            <p>{product.name}</p>
-            <p>{product.price.formatted_with_symbol}</p>
-          </div>
+          <Grid item md={3} key={product.id}>
+            <Slide direction="up" in={true}>
+              <Card>
+                <Link href={`/products/${product.permalink}`}>
+                  <CardActionArea>
+                    <CardMedia
+                      component="img"
+                      alt={product.name}
+                      image={product.media.source}
+                    />
+                    <CardContent>
+                      <Typography
+                        gutterBottom
+                        variant="body2"
+                        color="textPrimary"
+                        component="p"
+                      >
+                        {product.name}
+                      </Typography>
+                      <Box>
+                        <Typography
+                          gutterBottom
+                          variant="body1"
+                          color="textPrimary"
+                          component="p"
+                        >
+                          {product.price.formatted_with_symbol}
+                        </Typography>
+                      </Box>
+                    </CardContent>
+                  </CardActionArea>
+                </Link>
+              </Card>
+            </Slide>
+          </Grid>
         ))}
-      </main>
+      </Grid>
     </Layout>
   );
 }
@@ -24,7 +67,6 @@ export default function Home(props) {
 export async function getStaticProps() {
   const commerce = getCommerce();
   const { data: products } = await commerce.products.list();
-  console.log(products);
   return {
     props: {
       products,
