@@ -58,14 +58,8 @@ export default function Layout({
           className={classes.appBar}
         >
           <Toolbar className={classes.toolbar}>
-            <NextLink href="/">
-              <Link
-                variant="h6"
-                color="inherit"
-                noWrap
-                href="/"
-                className={classes.toolbarTitle}
-              >
+            <NextLink href="/" className={classes.toolbarTitle}>
+              <Link variant="h6" color="inherit" noWrap href="/">
                 NextJsShop
               </Link>
             </NextLink>

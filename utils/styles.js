@@ -40,9 +40,13 @@ export const useStyles = makeStyles((theme) => ({
   },
   toolbar: {
     flexWrap: 'wrap',
+    display: 'flex',
+    justifyContent: 'space-between',
   },
   toolbarTitle: {
     flexGrow: 1,
+    fontWeight: 600,
+    fontSize: '18px',
   },
   link: {
     margin: '1rem',

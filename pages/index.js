@@ -14,6 +14,7 @@ import Head from 'next/head';
 import Layout from '../components/Layout';
 import styles from '../styles/Home.module.css';
 import getCommerce from '../utils/commerce';
+import NextLink from 'next/link';
 
 export default function Home(props) {
   const { products } = props;
@@ -26,7 +27,7 @@ export default function Home(props) {
           <Grid item md={3} key={product.id}>
             <Slide direction="up" in={true}>
               <Card>
-                <Link href={`/products/${product.permalink}`}>
+                <NextLink href={`/products/${product.permalink}`}>
                   <CardActionArea>
                     <CardMedia
                       component="img"
@@ -54,7 +55,7 @@ export default function Home(props) {
                       </Box>
                     </CardContent>
                   </CardActionArea>
-                </Link>
+                </NextLink>
               </Card>
             </Slide>
           </Grid>

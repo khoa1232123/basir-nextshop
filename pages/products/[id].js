@@ -15,7 +15,7 @@ import Layout from '../../components/Layout';
 import { useStyles } from '../../utils/styles';
 import getCommerce from '../../utils/commerce';
 import { cartTypes } from '../../utils/types';
-import Router from 'next/dist/next-server/server/router';
+import Router from 'next/router';
 import { Store } from '../../components/Store';
 
 export default function Product(props) {
@@ -47,7 +47,7 @@ export default function Product(props) {
         payload: cartData.cart,
       });
     }
-    // Router.push('/cart');
+    Router.push('/cart');
   };
 
   return (
