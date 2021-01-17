@@ -1,5 +1,5 @@
 import React, { createContext, useReducer } from 'react';
-import { cartTypes } from '../utils/types';
+import { cartTypes, orderTypes } from '../utils/types';
 
 export const Store = createContext();
 
@@ -15,6 +15,11 @@ function reducer(state, action) {
         ...state,
         cart: { loading: false, data: action.payload },
       };
+    case orderTypes.ORDER_SET:
+      return {
+        ...state,
+        order: action.payload,
+      };
     default:
       return state;
   }
@@ -22,7 +27,11 @@ function reducer(state, action) {
 
 const initialState = {
   cart: { loading: false },
-  order: null,
+  order:
+    typeof window !== 'undefined' &&
+    window.localStorage.getItem('order_receipt')
+      ? JSON.parse(window.localStorage.getItem('order_receipt'))
+      : null,
 };
 
 export function StoreProvider(props) {
